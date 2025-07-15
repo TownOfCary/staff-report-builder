@@ -1,0 +1,192 @@
+<template>
+    <lightning-card title="Staff Report Controls">
+        <template if:true={showSettings}>
+        <div class="slds-p-horizontal_medium slds-p-vertical_medium">
+
+            <!-- CATALOG RECORD PICKER -->
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="12" medium-device-size="6">
+                    <lightning-record-picker
+                        label="Select Catalog Record"
+                        placeholder="Search Catalog Records..."
+                        object-api-name="Catalog__c"
+                        onchange={handleCatalogSelect}
+                        display-info={catalogDisplayInfo}
+                        matching-info={catalogMatchingInfo}>
+                    </lightning-record-picker>
+                </lightning-layout-item>
+
+            <!-- COMMS PLAN RECORD PICKER -->
+                <lightning-layout-item size="12" medium-device-size="6">
+                    <lightning-record-picker
+                        label="Select Comms Plan Record"
+                        placeholder="Search Comms Plans..."
+                        object-api-name="Comms_Planning__c"
+                        onchange={handleCommsPlanSelect}
+                        display-info={commsPlanDisplayInfo}
+                        matching-info={commsPlanMatchingInfo}>
+                    </lightning-record-picker>
+                </lightning-layout-item>
+
+
+            <!-- REZONING SUBMITTAL RECORD PICKER -->
+                <lightning-layout-item size="12" medium-device-size="6">
+                    <lightning-record-picker
+                        label="Select Rezoning Submittal"
+                        placeholder="Search Rezoning Submittals..."
+                        object-api-name="Rezoning_Submittal__c"
+                        onchange={handleRezoningSubmittalSelect}
+                        display-info={rezoningSubmittalDisplayInfo}
+                        matching-info={rezoningSubmittalMatchingInfo}>
+                    </lightning-record-picker>
+                </lightning-layout-item>
+
+            </lightning-layout>            
+
+             <!-- Advanced Mode Toggle -->
+            <div class="slds-m-top_medium">
+                <lightning-input
+                    type="toggle"
+                    label="Advanced Mode"
+                    onchange={handleAdvancedToggle}>
+                </lightning-input>
+                
+            </div>
+
+            <!-- Advanced Settings -->
+            <template if:true={showAdvanced}>
+                <div class="slds-m-top_small">
+                    <lightning-input
+                        label="Model Name (e.g., gpt-4o)"
+                        value={modelName}
+                        onchange={handleModelChange}>
+                    </lightning-input>
+                    <lightning-input
+                        label="Vector Store ID (optional)"
+                        value={vectorStoreId}
+                        onchange={handleVectorStoreChange}>
+                    </lightning-input>
+                    <lightning-input
+                        label="Temperature (0.0 to 1.0)"
+                        type="number"
+                        step="0.1"
+                        value={temperature}
+                        onchange={handleTemperatureChange}>
+                    </lightning-input>
+                    <lightning-textarea
+                        label="System Instructions"
+                        value={instructions}
+                        onchange={handleInstructionsChange}>
+                    </lightning-textarea>
+                </div>
+            </template>
+
+            <!-- Prompt Fields -->
+            <div class="slds-m-top_medium">
+                <lightning-textarea
+                    label="Prompt"
+                    value={customPrompt}
+                    onchange={handlePromptChange}
+                    class="slds-m-top_small">
+                </lightning-textarea>
+            </div>
+
+            <!-- Section Selector -->
+            <div class="slds-m-top_medium">
+                <lightning-checkbox-group
+                    label="Sections to Generate"
+                    options={sectionOptions}
+                    value={selectedSections}
+                    onchange={handleSectionsChange}>
+                </lightning-checkbox-group>
+                <lightning-button
+                    label="Select All"
+                    class="slds-m-top_x-small"
+                    onclick={handleSelectAll}>
+                </lightning-button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <div class="slds-button-group" role="group">
+                    <lightning-button
+                        label="Generate Draft"
+                        variant="brand"
+                        class="slds-m-right_small"
+                        onclick={handleGenerate}
+                        disabled={isLoading}>
+                    </lightning-button>
+
+                    <lightning-button
+                        label="Review"
+                        variant="brand"
+                        onclick={handleReview}
+                        disabled={isLoading}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            
+            <!-- Loading Spinner -->
+
+            
+
+        </div>
+        </template>
+        <template if:true={isLoading}>
+            <div class="slds-m-top_small slds-align_absolute-center">
+                <lightning-spinner alternative-text="Generating..." size="small"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Output: Preview Textareas -->
+        <template if:true={showPreview}>
+            <div class="slds-p-horizontal_medium slds-m-top_medium fade-in">
+                <template for:each={sectionPreviewLabels} for:item="section">
+                    <div key={section.key} class="slds-theme_default">
+                        <lightning-textarea
+                            name={section.key}
+                            label={section.label}
+                            value={section.value}
+                            onchange={handlePreviewEdit}>
+                        </lightning-textarea>
+                    </div>
+                </template>
+                <lightning-button
+                    label="Apply to Report"
+                    variant="success"
+                    class="slds-m-top_medium"
+                    onclick={handleApply}>
+                </lightning-button>
+                <lightning-button
+                    label="Dismiss"
+                    variant="neutral"
+                    class="slds-m-top_medium slds-m-left_small"
+                    onclick={handleDismiss}>
+                </lightning-button>
+            </div>
+        </template>
+
+        <!-- Output: Review Section -->
+        <template if:true={showReview}>
+            <div class="slds-p-horizontal_medium slds-m-top_medium">
+            <lightning-button
+                    label="Dismiss"
+                    variant="neutral"
+                    class="slds-m-top_medium"
+                    onclick={handleDismiss}>
+                </lightning-button>
+                <div class="slds-box slds-theme_default slds-p-around_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">AI Review Feedback</h3>
+                    
+                    <lightning-formatted-rich-text 
+                        value={reviewOutput} 
+                        class="slds-rich-text">
+                    </lightning-formatted-rich-text>
+                    
+                </div>
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

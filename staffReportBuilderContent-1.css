@@ -1,0 +1,24 @@
+lightning-textarea {
+    overflow: hidden;
+    height: auto;
+    min-height: 3rem;
+    transition: height 0.2s ease-in-out;
+}
+
+lightning-textarea:focus {
+    border-color: #5e9ed6;
+    box-shadow: 0 0 0 2px rgba(94, 158, 214, 0.2);
+}
+
+.custom-textarea {
+    min-height: 4rem;            /* make small fields a bit taller */
+  }
+  
+  .full-section .custom-textarea {
+    min-height: 12rem;           /* give “meatier” parts more room */
+  }
+  
+  .slds-card {
+    box-shadow: var(--lwc-box-shadow-3);
+    border-radius: .5rem;
+  }

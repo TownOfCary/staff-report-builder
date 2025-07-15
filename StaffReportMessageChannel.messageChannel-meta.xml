@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>Staff Report Message Channel</masterLabel>
+    <isExposed>true</isExposed>
+    <description>Sends finalized report content from Controls to Content</description>
+    <lightningMessageFields>
+        <fieldName>report</fieldName>
+    </lightningMessageFields>
+</LightningMessageChannel>

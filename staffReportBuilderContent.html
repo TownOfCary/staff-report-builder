@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="Staff Report Sections">
+        <div class="slds-p-horizontal_medium">
+
+            <template for:each={sectionReportLabels} for:item="section">
+                <div key={section.key} class="slds-m-vertical_small">
+                    <lightning-textarea
+                        key={section.key}
+                        name={section.key}
+                        label={section.label}
+                        value={section.value}>
+                    </lightning-textarea>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+    <lightning-button 
+        label="Download Doc" 
+        onclick={downloadDocx} 
+        disabled={isDownloadDisabled}>
+    </lightning-button>
+</template>

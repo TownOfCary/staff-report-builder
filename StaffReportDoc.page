@@ -1,0 +1,72 @@
+<apex:page controller="StaffReportDocController" contentType="application/msword#StaffReport.doc"
+    showHeader="false" standardStylesheets="false">
+    <head>
+      <style>
+        h1 { mso-style-name:"ST (SectionTitle)"; margin:0in; margin-bottom:.0001pt; line-height:32.0pt; font-size:14.0pt; font-family:"Franklin Gothic Book",sans-serif; color:#808080; letter-spacing:.25pt; }
+        h2 { mso-style-name:"H1 (HeadingLevel1)"; margin-top:24.0pt; margin-right:1in; margin-bottom:12.0pt; margin-left:0in; line-height:32.0pt; font-size:12.0pt; font-family:"Franklin Gothic Book",sans-serif; color:#000000; }
+        h3 { mso-style-name:"H2 (HeadingLevel2)"; margin-top:.25in; margin-right:1in; margin-bottom:6.0pt; margin-left:0in; line-height:24.0pt; font-size:12.0pt; font-family:"Franklin Gothic Book",sans-serif; color:#000000; }
+        p, li, div { mso-style-name:"CI (CourseInformation)"; margin-top:0in; margin-right:1in; margin-bottom:.0001pt; margin-left:0in; line-height:12.0pt; font-size:12.0pt; font-family:"Franklin Gothic Book",sans-serif; }
+      </style>
+    </head>
+    <body>
+    
+      <table style="width:100%; border:none; border-collapse:collapse; margin-bottom:12pt;">
+        <tr>
+          <td style="border:none;"></td>
+          <td style="border:none; text-align:right; vertical-align:top; width:1in;">
+            <img 
+              src="{!TownSealBase64}" 
+              alt="Town Seal"
+              style="
+                max-width:1in;
+                max-height:1in;
+                width:auto;
+                height:auto;
+                display:block;
+                float:right;
+              " 
+            />
+          </td>
+        </tr>
+      </table>
+
+      <!-- Static headers -->
+      <h1>Staff Report for Town Council</h1>
+      <h3>Meeting Date:</h3>
+      <p>[MEETING DATE]</p>
+
+      <!-- Formal dynamic title -->
+      <h2>{!reportTitle}</h2>
+
+      <!-- Meta info -->
+      <p><strong>Purpose:</strong> {!reportPurpose}</p>
+      <br></br>
+      <p><strong>Prepared by:</strong> [PREPARED BY NAME]</p>
+      <br></br>
+      <p><strong>Speaker:</strong> [SPEAKER NAME]</p>
+
+      <!-- Executive Summary -->
+      <h2>Executive Summary</h2>
+      <p>{!reportExecutiveSummary}</p>
+
+      <!-- Recommendation (italicized) -->
+      <h2 style="font-style:italic;">Recommendation</h2>
+      <p style="font-style:italic;">{!reportRecommendation}</p>
+
+      <!-- Divider before Background -->
+      <div style="border:3px solid black; margin:12pt 0;"></div>
+
+      <!-- Background and other sections -->
+      <h2>Background</h2>
+      <p>{!reportBackground}</p>
+
+      <h2>Discussion</h2>
+      <p>{!reportDiscussion}</p>
+
+      <h2>Fiscal Impact</h2>
+      <p>{!reportFiscalImpact}</p>
+
+      <h2>Next Steps</h2>
+      <p>{!reportNextSteps}</p>
+    </body>
+</apex:page>
